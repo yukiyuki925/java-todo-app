@@ -54,4 +54,48 @@ public class TodoLogic {
 		}
 	}
 	
+	//更新対象のタスクを取得
+	public TodoBean getUpdateTodo(int id) throws SQLException, NamingException {
+		TodoBean todoBean = new TodoBean();
+		
+		String sql = "select * from todo where id=?";
+		
+		try (Connection con = ConnectionBase.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			System.out.println(pstmt.toString());
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				todoBean.setTitle(rs.getString("title"));
+				todoBean.setDescription(rs.getString("description"));
+				todoBean.setDue_date(rs.getDate("due_date"));
+				todoBean.setId(rs.getInt("id"));
+			}
+			return todoBean;
+		}
+	}
+	
+	//タスクの更新を実行
+	public TodoBean updateTodo(TodoBean todoBean) throws SQLException, NamingException {
+		String sql = "update todo set title=?, description=?, due_date=? where id=?";
+		
+		try (Connection con = ConnectionBase.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			
+			//パラメータをSQLにセット
+			pstmt.setString(1,todoBean.getTitle());
+			pstmt.setString(2, todoBean.getDescription());
+			pstmt.setDate(3, todoBean.getDue_date());
+			pstmt.setInt(4, todoBean.getId());
+			
+			//コンソールに実行するSQL文を表示
+			System.out.println(pstmt.toString());
+			//SQL実行
+			pstmt.executeUpdate();
+			
+		}
+		return todoBean;
+	}
+	
 }
