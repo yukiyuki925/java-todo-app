@@ -98,4 +98,20 @@ public class TodoLogic {
 		return todoBean;
 	}
 	
+	//タスクを削除
+	public void deleteTodo(int id) throws SQLException, NamingException {
+		//削除を実行するSQL文
+		String sql = "delete from todo where id=?";
+		
+		try (Connection con = ConnectionBase.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			//実行するSQL文を表示
+			System.out.println(pstmt.toString());
+			//SQL実行
+			pstmt.executeUpdate();
+		}
+	}
+	
 }

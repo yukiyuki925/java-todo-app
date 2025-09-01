@@ -53,7 +53,7 @@
 			</tr>
 		</table>
 		<input type="hidden" name="id" value="<%=todoBean.getId()%>">
-		<button type="submit" class="form-button">登録</button>
+		<button type="submit" class="form-button">更新</button>
 	</form>
 </body>
 </html>
